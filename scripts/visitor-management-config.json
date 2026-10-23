@@ -1,0 +1,677 @@
+{
+  "version": "1.0.0-public-template",
+  "branding": {
+    "primaryColor": "#9E1422",
+    "primaryColorRgb": "158, 20, 34",
+    "primaryColorUsage": "Background colour for Forms theme and Outlook email headers",
+    "forms": {
+      "themeColor": "#9E1422",
+      "themeImage": "none",
+      "themeImageConstraint": "Do not upload the horizontal school logo as a Forms Style theme image; Forms applies it as cover wallpaper and crops brand text into a giant watermark.",
+      "logoAssetLocal": "assets/school-logo.png",
+      "logoAssetWhiteLocal": "assets/school-logo-white.png",
+      "formsAId": "YOUR_STAFF_FORM_ID",
+      "formsBId": "YOUR_VISITOR_FORM_ID"
+    },
+    "email": {
+      "headerBackground": "#9E1422",
+      "headerTextColor": "#FFFFFF",
+      "headerTextColorHexOnly": true,
+      "crestUrl": "https://example.com/assets/school-logo.svg",
+      "crestLink": "https://example.com",
+      "crestHeightPx": 48,
+      "headerLayout": "Left white title (访客管理系统 / VISITOR MANAGEMENT + template heading); right crest image in a separate <td>",
+      "outlookWindowsWhiteTextFix": {
+        "issue": "Outlook for Windows (Word HTML) often renders header title text black when it shares a horizontal line with an <img> crest, even when CSS color is white on Mac/OWA.",
+        "pattern": "On the left title <td>: color:#ffffff on the td and every div/p/span/strong; wrap title lines in <font color=\"#ffffff\">; use #ffffff not the keyword white; mso-line-height-rule:exactly on the title td; keep crest <img> in a separate right <td>."
+      },
+      "qrCodePass": {
+        "enabled": true,
+        "apiPattern": "https://quickchart.io/qr?text={ENCODED_PAYLOAD}&size=200&margin=1",
+        "sizePx": 200,
+        "borderColor": "#9E1422",
+        "titleZh": "📱 访客到校通行二维码",
+        "titleEn": "Visitor Entry QR Code",
+        "instructionZh": "请在到校时向校门安保人员出示此二维码进行快速核验放行。",
+        "instructionEn": "Please present this QR code to the gate security upon arrival."
+      }
+    }
+  },
+  "localization": {
+    "defaultLocale": "zh-CN",
+    "visitorFacing": {
+      "mode": "bilingual",
+      "languages": [
+        "zh-CN",
+        "en"
+      ],
+      "order": [
+        "zh-CN",
+        "en"
+      ],
+      "rule": "Visitor form questions and visitor result emails must show Chinese first, then English."
+    },
+    "guardFacing": {
+      "mode": "chinesePrimary",
+      "languages": [
+        "zh-CN"
+      ],
+      "rule": "Gate views, guard SOPs, Teams channel cards, and emergency views must be written in clear Simplified Chinese."
+    },
+    "adminInternal": {
+      "mode": "englishStableValues",
+      "rule": "SharePoint internal names and Power Automate status values stay in English; Chinese is provided through labels, views, cards, and SOP text."
+    },
+    "staffFacing": {
+      "mode": "englishOnly",
+      "languages": [
+        "en"
+      ],
+      "rule": "Form A (internal invitation / visitor link request) is English-only for staff. Form B remains bilingual for external visitors."
+    }
+  },
+  "formA": {
+    "internalId": "VIS-FORM-01",
+    "name": "Request a Visitor Registration Link",
+    "localeNote": "English-only for staff; Form B remains bilingual for external visitors.",
+    "testName": "【测试】VIS-FORM-01 创建访客邀请",
+    "formId": "YOUR_STAFF_FORM_ID",
+    "entryMode": "Microsoft Forms",
+    "invitationLinkQuestion": {
+      "name": "Visitor Invitation link",
+      "type": "choice",
+      "display": "singleChoice",
+      "required": true,
+      "options": [
+        {
+          "label": "Generate Invitation link"
+        }
+      ],
+      "avoidWording": [
+        "Generate a visitor invitation now?",
+        "Generate invitation"
+      ]
+    },
+    "confirmationMessage": {
+      "en": "Thank you for your request. Your visitor registration link will be sent to your school email address. Please share it only with the intended visitor.",
+      "avoidWording": [
+        "shortly",
+        "很快",
+        "马上"
+      ]
+    },
+    "timeQuestions": [
+      {
+        "name": "预计到访时间",
+        "type": "choice",
+        "display": "dropdown",
+        "required": true,
+        "freeTextAllowed": false,
+        "mapsTo": "VisitorInvitations.VisitStartTime"
+      },
+      {
+        "name": "预计离校时间",
+        "type": "choice",
+        "display": "dropdown",
+        "required": false,
+        "freeTextAllowed": false,
+        "mapsTo": "VisitorInvitations.VisitEndTime"
+      }
+    ],
+    "timeOptions": [
+      "07:30",
+      "08:00",
+      "08:30",
+      "09:00",
+      "09:30",
+      "10:00",
+      "10:30",
+      "11:00",
+      "11:30",
+      "12:00",
+      "12:30",
+      "13:00",
+      "13:30",
+      "14:00",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:00",
+      "16:30",
+      "17:00",
+      "17:30",
+      "18:00"
+    ],
+    "sharePointTimeFields": {
+      "VisitStartTime": "singleLineText",
+      "VisitEndTime": "singleLineText"
+    }
+  },
+  "formB": {
+    "name": "校园访客登记 / School Visitor Registration",
+    "formId": "YOUR_VISITOR_FORM_ID",
+    "confirmationMessage": {
+      "zh-CN": "感谢您提交访客登记。您的校内联系人将审核您的申请，审核结果将发送到您填写的电子邮箱。",
+      "en": "Thank you for submitting your visitor registration. Your school host will review your application, and the result will be sent to the email address you provided.",
+      "bilingual": "感谢您提交访客登记。您的校内联系人将审核您的申请，审核结果将发送到您填写的电子邮箱。\n\nThank you for submitting your visitor registration. Your school host will review your application, and the result will be sent to the email address you provided."
+    },
+    "optionalFieldInstruction": {
+      "zh-CN": "如不适用，请留空。",
+      "en": "Leave blank if not applicable.",
+      "bilingual": "如不适用，请留空。\nLeave blank if not applicable."
+    },
+    "optionalQuestions": [],
+    "visitorComposition": {
+      "accompanyingCountQuestion": {
+        "name": "随行人数 / Number of Accompanying Visitors",
+        "type": "choice",
+        "required": true,
+        "minimum": 0,
+        "maximum": 10
+      },
+      "accompanyingNameQuestions": {
+        "name": "随行人员姓名 / Accompanying Visitor Name",
+        "type": "text",
+        "slotCount": 10,
+        "branchingRule": "Show and require exactly the same number of name fields as the selected accompanying count."
+      }
+    },
+    "vehicleRegistration": {
+      "registrationQuestion": {
+        "name": "是否需要登记访客车辆？/ Would you like to register a vehicle for visitor parking?",
+        "type": "choice",
+        "required": true,
+        "options": [
+          "是 / Yes",
+          "否 / No"
+        ]
+      },
+      "plateQuestion": {
+        "id": "r00000000000000000000000000000000",
+        "name": "车牌号码 / Vehicle License Plate Number",
+        "type": "text",
+        "requiredWhen": "Vehicle registration = Yes",
+        "mapsTo": "VisitorApplications.VehicleNo"
+      },
+      "formInstruction": {
+        "zh-CN": "所有车辆必须停放在学校指定道路指定停车位（校外）。未停在停车位的车辆将被警察贴罚单。如停车位已满并需要协助，请联系门岗保安。",
+        "en": "All vehicles must be parked in the designated parking spaces on designated school access road (outside the campus). Vehicles not parked in a designated space will be ticketed by the police. If all spaces are occupied and you need assistance, please contact the security guard at the gate."
+      }
+    },
+    "visitorSafeguarding": {
+      "noticeReference": "VIS-SG-01",
+      "questionPosition": "final",
+      "question": {
+        "name": "学生安全保护须知确认 / Visitor Safeguarding Acknowledgement",
+        "type": "choice",
+        "display": "singleChoice",
+        "required": true,
+        "options": [
+          "我已阅读、理解并同意遵守以上要求 / I have read, understood and agree to follow the requirements above"
+        ]
+      },
+      "subtitle": {
+        "zh-CN": "请阅读学校提供的访客安全须知后确认。",
+        "en": "Read the school-provided visitor safeguarding notice before acknowledging."
+      },
+      "branching": {
+        "vehicleYes": "Vehicle registration -> Vehicle License Plate Number -> Visitor Safeguarding Acknowledgement",
+        "vehicleNo": "Vehicle registration -> Visitor Safeguarding Acknowledgement",
+        "rule": "Every reachable form path must end at the required safeguarding acknowledgement."
+      },
+      "responseEvidence": "Microsoft Forms stores the required acknowledgement in the form response. No additional SharePoint column or Power Automate mapping is required for the current scope."
+    },
+    "removedQuestions": [
+      {
+        "name": "访客人数（包括您本人） / Number of Visitors (Including Yourself)",
+        "mapsTo": "VisitorApplications.VisitorCount",
+        "removedOn": "2026-07-28",
+        "previousFormsKey": "r00000000000000000000000000000000",
+        "powerAutomateFollowUp": "Visitor - Process Registration must remove VisitorCount validation; set Create item VisitorCount to static 1 (SharePoint requires the field; do not map from deleted Forms key)."
+      },
+      {
+        "name": "同行人员信息（如适用） / Accompanying Visitors (If Applicable)",
+        "mapsTo": "VisitorApplications.CompanionInfo",
+        "removedOn": "2026-07-28",
+        "previousFormsKey": "r00000000000000000000000000000000",
+        "powerAutomateFollowUp": "Visitor - Process Registration must stop mapping CompanionInfo from the deleted Forms question."
+      },
+      {
+        "name": "车牌号码（如适用） / Vehicle Number (If Applicable)",
+        "mapsTo": "VisitorApplications.VehicleNo",
+        "removedOn": "2026-07-28",
+        "previousFormsKey": "r00000000000000000000000000000000",
+        "replacementAddedOn": "2026-09-01",
+        "replacementFormsKey": "r00000000000000000000000000000000",
+        "powerAutomateFollowUp": "Historical field removed on 2026-07-28. The replacement conditional vehicle-registration branch was added on 2026-09-01 and mapped to VehicleNo on 2026-09-02."
+      }
+    ],
+    "identityVerification": {
+      "collectFullDocumentNumber": false,
+      "collectDocumentImage": false,
+      "questions": [
+        {
+          "id": "r00000000000000000000000000000000",
+          "name": "证件类型 / Document type",
+          "type": "choice",
+          "required": true,
+          "options": [
+            "中国居民身份证 / Mainland China Resident ID",
+            "护照 / Passport",
+            "其他证件 / Other"
+          ],
+          "mapsTo": "VisitorApplications.DocumentType"
+        },
+        {
+          "id": "r00000000000000000000000000000000",
+          "name": "证件号码后4位 / Last 4 characters of document number",
+          "type": "text",
+          "required": true,
+          "mapsTo": "VisitorApplications.DocumentLast4",
+          "privacyInstruction": "Enter only the last 4 characters. Do not upload or enter the full document number."
+        }
+      ]
+    }
+  },
+  "statusValues": {
+    "inviteStatus": [
+      "Created",
+      "Submitted",
+      "Approved",
+      "Rejected",
+      "Expired",
+      "Cancelled",
+      "Error"
+    ],
+    "approvalStatus": [
+      "Pending",
+      "Approved",
+      "Rejected",
+      "Arrived",
+      "Left",
+      "Expired",
+      "Cancelled",
+      "Exception"
+    ],
+    "displayLabels": {
+      "Pending": "待审批",
+      "Approved": "已批准",
+      "Rejected": "已拒绝",
+      "Arrived": "已到达",
+      "Left": "已离校",
+      "Expired": "已过期",
+      "Cancelled": "已取消",
+      "Exception": "异常"
+    },
+    "guardActionLabels": {
+      "search": "查询访客",
+      "checkIn": "登记到校",
+      "checkOut": "登记离校",
+      "blockEntry": "不予放行",
+      "emergencyList": "紧急在场名单"
+    }
+  },
+  "powerAutomate": {
+    "vis01": {
+      "targetName": "VIS-01 Create Visitor Invitation",
+      "productionFlowId": "00000000-0000-4000-8000-000000000002",
+      "testFlowId": "00000000-0000-4000-8000-000000000001",
+      "replaceManualTriggerWith": "Microsoft Forms - When a new response is submitted",
+      "requiredActions": [
+        "Microsoft Forms - Get response details",
+        "Office 365 Users - Get user profile (V2)",
+        "Generate InviteCode",
+        "SharePoint - Create item",
+        "Office 365 Outlook - Send an email from a shared mailbox (V2)"
+      ],
+      "expressions": {
+        "inviteCode": "guid()",
+        "hostEmail": "coalesce(outputs('Get_user_profile_(V2)')?['body/mail'], outputs('Get_user_profile_(V2)')?['body/userPrincipalName'])",
+        "visitorLink": "concat('FORM_B_URL_WITH_INVITE_CODE_PARAMETER=', uriComponent(outputs('Generate_InviteCode')))",
+        "expireAtMvp": "addHours(utcNow(), 24)",
+        "expireAtNote": "Visitor registration links remain valid for 24 hours from creation.",
+        "generatedAtDisplay": "formatDateTime(convertTimeZone(outputs('Create_item')?['body/Created'], 'UTC', 'China Standard Time'), 'yyyy-MM-dd HH:mm')",
+        "expiresAtDisplay": "formatDateTime(convertTimeZone(outputs('Create_item')?['body/ExpireAt'], 'UTC', 'China Standard Time'), 'yyyy-MM-dd HH:mm')"
+      }
+    },
+    "vis02": {
+      "targetName": "VIS-02 Submit and Approve Visitor",
+      "flowId": "00000000-0000-4000-8000-000000000003",
+      "invitationReusePolicy": {
+        "reusableWithinExpiry": true,
+        "linkAvailableWhen": "InviteCode matches AND InviteStatus = Created AND ExpireAt >= utcNow()",
+        "invitationStatusOwnership": "InviteStatus represents link lifecycle only. It remains Created while usable and changes only to Expired, Cancelled, or Error.",
+        "applicationStatusOwnership": "Approved and Rejected are written only to the current VisitorApplications item.",
+        "relationship": "Many VisitorApplications rows may share one InvitationItemId and InviteCode.",
+        "legacyInvitationFields": [
+          "ApplicationId",
+          "SubmittedAt",
+          "ApprovedAt"
+        ],
+        "legacyFieldRule": "Do not write per-application values to these single-value VisitorInvitations fields."
+      },
+      "idempotency": {
+        "field": "FormsEventKey",
+        "fieldType": "Single line of text",
+        "enforceUniqueValues": true,
+        "keyExpression": "concat('YOUR_VISITOR_FORM_ID','|',string(triggerOutputs()?['body/resourceData/responseId']))",
+        "scope": "Valid responses that reach VisitorApplications Create item",
+        "duplicateBehavior": "Create item still fails on the unique constraint before any duplicate approval, application update, or result email. The handled duplicate branch then terminates the run as Succeeded; non-FormsEventKey Create item failures remain Failed.",
+        "duplicateFailureHandling": {
+          "conditionAction": "Handle duplicate Forms event",
+          "detectExpression": "if(contains(string(outputs('Create_item')), '[FormsEventKey]'), 'true', 'false')",
+          "runAfterCreateItem": [
+            "Failed",
+            "TimedOut"
+          ],
+          "duplicateTerminateAction": "Duplicate Forms event handled",
+          "duplicateTerminateStatus": "Succeeded",
+          "unexpectedFailureTerminateAction": "Preserve unexpected Create item failure",
+          "unexpectedFailureTerminateStatus": "Failed",
+          "unexpectedFailureCode": "UnexpectedCreateItemFailure",
+          "approvalRunAfter": "Handle duplicate Forms event = Skipped"
+        },
+        "notAKey": [
+          "InviteCode",
+          "VisitorEmail",
+          "response payload hash"
+        ]
+      },
+      "approvalIdentity": {
+        "platformRule": "Microsoft Approvals always shows the flow creator; an Exchange shared mailbox cannot be the Teams/Approvals sender identity.",
+        "recommendedCreator": "A licensed Entra/M365 service user with display name School Visitor Management",
+        "sharedMailboxRole": "Continue using visitor-workflow@example.com only for custom invitation, correction, invalid-link, result, and optional reminder emails."
+      },
+      "removedFormMappings": [
+        {
+          "sharePointField": "VisitorCount",
+          "removedOn": "2026-07-28",
+          "previousFormsKey": "r00000000000000000000000000000000"
+        },
+        {
+          "sharePointField": "CompanionInfo",
+          "removedOn": "2026-07-28",
+          "previousFormsKey": "r00000000000000000000000000000000"
+        },
+        {
+          "sharePointField": "VehicleNo",
+          "removedOn": "2026-07-28",
+          "previousFormsKey": "r00000000000000000000000000000000",
+          "restoredOn": "2026-09-02",
+          "replacementFormsKey": "r00000000000000000000000000000000"
+        }
+      ],
+      "approvalTimeoutPattern": {
+        "status": "Deferred future reminder design; this is not the current production timeout handler.",
+        "replace": "Approvals - Start and wait for an approval",
+        "with": [
+          "Approvals - Create an approval",
+          "Parallel Branch A - Wait for an approval",
+          "Parallel Branch B - Delay PT24H, then remind when ApprovalStatus is still Pending"
+        ],
+        "delayIso8601": "PT24H"
+      },
+      "approvalTimeoutHandling": {
+        "timeoutIso8601": "P28D",
+        "timeoutAction": "Approval timeout handled",
+        "timeoutActionRunAfter": "Start and wait for an approval = TimedOut",
+        "timeoutTerminateStatus": "Succeeded",
+        "approvalOutcomeRunAfter": "Approval timeout handled = Skipped",
+        "existingInFlightApprovals": "Not cancelled or replayed by the 2026-08-20 repair.",
+        "verificationScope": "Saved-definition and run-after structure only; a real 28-day timeout was not executed."
+      },
+      "expressions": {
+        "submittedInviteCode": "trim(outputs('Get_response_details')?['body/InviteCode'])",
+        "getInvitationFilter": "InviteCode eq '<submittedInviteCode>' and InviteStatus eq 'Created' and ExpireAt ge utcNow()",
+        "applicationNo": "concat('VA-', formatDateTime(utcNow(),'yyyyMMddHHmmss'), '-', substring(guid(),0,8))",
+        "visitorReferenceDisplay": "substring(outputs('Create_item')?['body/ApplicationNo'],11,6)",
+        "documentType": "outputs('Get_response_details')?['body/r00000000000000000000000000000000']",
+        "documentLast4": "if(greater(length(trim(coalesce(outputs('Get_response_details')?['body/r00000000000000000000000000000000'],''))),4),substring(trim(coalesce(outputs('Get_response_details')?['body/r00000000000000000000000000000000'],'')),sub(length(trim(coalesce(outputs('Get_response_details')?['body/r00000000000000000000000000000000'],''))),4),4),trim(coalesce(outputs('Get_response_details')?['body/r00000000000000000000000000000000'],'')))",
+        "vehicleNo": "outputs('Get_response_details')?['body/r00000000000000000000000000000000']",
+        "approvedEmailParkingCondition": "empty(outputs('Create_item')?['body/VehicleNo'])",
+        "approvedEmailParkingBehavior": "Return an empty string when VehicleNo is empty; otherwise insert the bilingual designated school access road parking reminder before the existing Important block."
+      },
+      "pendingTenantUpdates": [
+        "Configure staff form",
+        "Configure visitor form",
+        "Create SharePoint lists",
+        "Set permissions",
+        "Configure approvals",
+        "Configure notification mailbox",
+        "Run acceptance tests"
+      ]
+    },
+    "vis04": {
+      "targetName": "VIS-04 Expire Visitor Invitations",
+      "recurrence": "Hourly",
+      "rules": [
+        {
+          "name": "expireActiveInvitations",
+          "when": "ExpireAt < utcNow() AND InviteStatus = Created",
+          "then": "InviteStatus = Expired"
+        },
+        {
+          "name": "expirePendingApplicationsAfterVisitDate",
+          "when": "VisitDate < today AND ApprovalStatus = Pending",
+          "then": "ApprovalStatus = Expired; do not change the shared invitation because one application's state must not disable the link"
+        },
+        {
+          "name": "longStayReminder",
+          "when": "ApprovalStatus = Arrived AND ArrivalTime < addHours(utcNow(), -4) AND DepartureTime is empty",
+          "then": "Send Teams message to 异常处理 channel"
+        }
+      ]
+    }
+  },
+  "emailTemplates": {
+    "designSystem": {
+      "version": "2026-07-29.6",
+      "compatibility": "Outlook-safe presentation tables and inline CSS; Windows Outlook Word engine white-text via #ffffff + <font color=\"#ffffff\"> on header titles",
+      "fontFamily": "Arial,'Microsoft YaHei',sans-serif",
+      "bodyColor": "#233044",
+      "sourceOfTruthTemplate": "visitorApproved",
+      "fontTokens": {
+        "kicker": "font-size:12px;line-height:18px;letter-spacing:1.2px;font-weight:700;color:#ffffff",
+        "headerTitle": "font-size:22px;line-height:30px;font-weight:700;margin-top:8px;color:#ffffff",
+        "body": "font-size:15px;line-height:24px;padding:28px 30px",
+        "tableCellPadding": "10px 13px",
+        "tableLabelWeight": 700,
+        "englishSublabel": "font-weight:400;color:#566579",
+        "footer": "font-size:13px;line-height:20px;color:#5b6778;padding:16px 30px;background:#eef2f6",
+        "ctaButton": "font-size:15px;font-weight:700;line-height:20px;padding:12px 18px"
+      },
+      "bodyFontSizePx": 15,
+      "headingFontSizePx": 22,
+      "kickerFontSizePx": 12,
+      "supportingFontSizePx": 13,
+      "bodyLineHeightPx": 24,
+      "kickerLineHeightPx": 18,
+      "titleLineHeightPx": 30,
+      "footerLineHeightPx": 20,
+      "kickerLetterSpacingPx": 1.2,
+      "maximumContentWidthPx": 680,
+      "headerBackground": "#9E1422",
+      "headerTextColor": "#FFFFFF",
+      "crestUrl": "https://example.com/assets/school-logo.svg",
+      "crestLink": null,
+      "languageLayout": "Chinese and English appear on separate lines",
+      "accessibility": "WCAG AA color contrast target",
+      "templates": [
+        "employeeInvitation",
+        "invalidFormat",
+        "invalidLink",
+        "visitorApproved",
+        "visitorNotApproved"
+      ]
+    },
+    "teacherInvitationFooter": "If Microsoft Forms shows an old invite code, reopen the registration link in a private or incognito window.",
+    "employeeInvitationSubject": "Visitor registration link is ready",
+    "invalidFormatSubject": "访客登记信息格式无效 | Visitor registration information is invalid",
+    "invalidFormatChecklist": [
+      {
+        "zh-CN": "访客姓名：2–50 个字符，且不能仅包含数字",
+        "en": "Visitor name: 2–50 characters and not numbers only"
+      },
+      {
+        "zh-CN": "联系电话：中国大陆手机号码，或不含空格和连字符的国际 E.164 格式",
+        "en": "Phone number: a mainland China mobile number, or an international E.164 number without spaces or hyphens"
+      },
+      {
+        "zh-CN": "电子邮箱：请输入有效的电子邮箱地址，且不得包含空格",
+        "en": "Email address: enter a valid email address with no spaces"
+      },
+      {
+        "zh-CN": "来访日期：上海时间当天至未来 90 天内",
+        "en": "Visit date: today through the next 90 days (China Standard Time)"
+      },
+      {
+        "zh-CN": "预计到访时间：请选择 07:30 至 18:00 之间的半小时时段",
+        "en": "Expected arrival time: select one of the half-hour options from 07:30 to 18:00"
+      }
+    ],
+    "invalidLinkSubject": "访客登记链接无效 | Visitor registration link is invalid",
+    "visitorApprovalSubject": "访客申请已批准 | Visitor application approved | {VisitDate}",
+    "visitorApprovalDetails": {
+      "visitorReference": "Six timestamp digits only",
+      "approvedAccessWindow": "Removed; use VisitDate plus ArrivalWindow only",
+      "documentVerification": [
+        "DocumentType",
+        "DocumentLast4"
+      ],
+      "schoolAddressZh": "请配置学校公开地址",
+      "schoolAddressEn": "CONFIGURE_PUBLIC_SCHOOL_ADDRESS",
+      "navigation": {
+        "amapUrl": "https://example.com/school-directions"
+      }
+    },
+    "visitorRejectionSubject": "访客申请未获批准 | Visitor application not approved | {VisitDate}",
+    "visitorRejectionBody": "状态：未获批准 / Status: Not approved\n来访日期 / Visit date: {VisitDate}\n被访员工 / School host: {HostName}\n如需了解后续安排，请联系邀请您的校内员工。 / For next steps, contact the school host who invited you."
+  },
+  "adaptiveCards": {
+    "gateApprovedVisitor": {
+      "type": "AdaptiveCard",
+      "version": "1.2",
+      "body": [
+        {
+          "type": "TextBlock",
+          "text": "访客已批准，请备查",
+          "weight": "Bolder",
+          "size": "Medium",
+          "wrap": true
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            {
+              "title": "访客编号",
+              "value": "{{ApplicationNo}}"
+            },
+            {
+              "title": "姓名",
+              "value": "{{VisitorName}}"
+            },
+            {
+              "title": "电话",
+              "value": "{{VisitorPhone}}"
+            },
+            {
+              "title": "来访日期",
+              "value": "{{VisitDate}}"
+            },
+            {
+              "title": "预计时间",
+              "value": "{{ArrivalWindow}}"
+            },
+            {
+              "title": "被访人",
+              "value": "{{HostName}}"
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "text": "请在“今日已批准”视图核验后将状态改为“已到达”。",
+          "wrap": true,
+          "isSubtle": true,
+          "size": "Small"
+        }
+      ]
+    }
+  },
+  "sharePointViews": {
+    "gateApprovedVisitors": {
+      "name": "今日已批准",
+      "list": "VisitorApplications",
+      "filter": "VisitDate = [Today] AND ApprovalStatus = Approved",
+      "columns": [
+        "ApplicationNo",
+        "VisitorName",
+        "VisitorPhone",
+        "Organization",
+        "HostName",
+        "ArrivalWindow",
+        "DocumentType",
+        "DocumentLast4",
+        "ApprovalStatus"
+      ],
+      "applicationNoDisplay": "substring(@currentField, 11, 17)",
+      "displayLabels": {
+        "ApplicationNo": "访客编号",
+        "VisitorName": "姓名",
+        "VisitorPhone": "电话",
+        "Organization": "单位",
+        "HostName": "被访人",
+        "ArrivalWindow": "预计时间",
+        "DocumentType": "证件类型",
+        "DocumentLast4": "证件号码后4位",
+        "ApprovalStatus": "状态"
+      }
+    },
+    "gateArrivedVisitors": {
+      "name": "今日已到达",
+      "list": "VisitorApplications",
+      "filter": "VisitDate = [Today] AND ApprovalStatus = Arrived",
+      "columns": [
+        "ApplicationNo",
+        "VisitorName",
+        "VisitorPhone",
+        "HostName",
+        "ArrivalTime",
+        "DepartureTime",
+        "DocumentType",
+        "DocumentLast4",
+        "ApprovalStatus"
+      ],
+      "applicationNoDisplay": "substring(@currentField, 11, 17)",
+      "displayLabels": {
+        "ApplicationNo": "访客编号",
+        "VisitorName": "姓名",
+        "VisitorPhone": "电话",
+        "HostName": "被访人",
+        "ArrivalTime": "到校时间",
+        "DepartureTime": "离校时间",
+        "DocumentType": "证件类型",
+        "DocumentLast4": "证件号码后4位",
+        "ApprovalStatus": "状态"
+      }
+    },
+    "emergencyOnSite": {
+      "name": "紧急在场",
+      "list": "VisitorApplications",
+      "filter": "ApprovalStatus = Arrived AND DepartureTime is empty",
+      "columns": [
+        "VisitorName",
+        "VisitorPhone",
+        "HostName",
+        "ArrivalTime"
+      ],
+      "displayLabels": {
+        "VisitorName": "姓名",
+        "VisitorPhone": "电话",
+        "HostName": "被访人",
+        "ArrivalTime": "到校时间"
+      },
+      "sort": "ArrivalTime ascending"
+    }
+  }
+}
